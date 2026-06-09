@@ -1,4 +1,4 @@
-name: Build vllm-rocm
+name: Build comfyui-rocm
 on:
   workflow_dispatch:
 
@@ -17,6 +17,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vllm-rocm-image
-          path: vllm-rocm.tar.gz
+          name: comfyui-rocm-image
+          path: comfyui-rocm.tar.gz
           retention-days: 7
