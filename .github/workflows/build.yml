@@ -11,8 +11,8 @@ jobs:
 
       - name: Pull and Save Docker Image
         run: |
-          docker pull vllm/vllm-openai:latest-rocm
-          docker save vllm/vllm-openai:latest-rocm | gzip > vllm-rocm.tar.gz
+          docker pull vllm/vllm-openai-rocm:nightly
+          docker save vllm/vllm-openai-rocm:nightly | gzip > vllm-rocm.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
