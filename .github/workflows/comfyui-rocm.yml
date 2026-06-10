@@ -26,8 +26,11 @@ jobs:
 
       - name: Pull and Save Docker Image
         run: |
+          set -e
           docker pull corundex/comfyui-rocm
+          # 流式打包，不额外占用双倍磁盘（关键优化）
           docker save corundex/comfyui-rocm | gzip > comfyui-rocm.tar.gz
+          ls -lh comfyui-rocm.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
