@@ -6,30 +6,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 深度清理闲置预装软件，释放磁盘
+      - name: 深度清理，最大化可用空间
         run: |
           set -e
           df -h
-          # 清理apt缓存
+          # 系统大垃圾
           sudo apt clean
-          # 删除大型预装套件
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /opt/hostedtoolcache
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /usr/share/swift
-          # 清空docker无用缓存
+          sudo rm -rf /usr/share/dotnet /opt/ghc /opt/hostedtoolcache /usr/local/lib/android /usr/share/swift
+          # Docker 全清（镜像/缓存/构建缓存）
           docker system prune -a -f
+          docker builder prune -a -f
           df -h
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
 
-      - name: Pull and Save Docker Image
+      - name: 安装 skopeo（关键：替代 docker save）
+        run: |
+          sudo apt update
+          sudo apt install -y skopeo
+
+      - name: 直接拉取并打包（不进Docker daemon、不爆tmp）
         run: |
           set -e
-          docker pull corundex/comfyui-rocm
-          # 流式打包，不额外占用双倍磁盘（关键优化）
-          docker save corundex/comfyui-rocm | gzip > comfyui-rocm.tar.gz
+          # 拉取+打包一步到位，绕开 /var/lib/docker/tmp
+          skopeo copy \
+            --retry-times 3 \
+            --timeout 300s \
+            docker://corundex/comfyui-rocm:latest \
+            docker-archive:comfyui-rocm.tar.gz
           ls -lh comfyui-rocm.tar.gz
 
       - name: Upload artifact
