@@ -1,0 +1,23 @@
+name: Sync Large Docker Image
+
+on:
+  workflow_dispatch: # 这个参数允许你在网页上手动点击按钮触发
+
+jobs:
+  sync-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Skopeo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y skopeo
+
+      - name: Sync Image to Aliyun
+        run: |
+          # 请将下面的 registry.cn-hangzhou.aliyuncs.com 换成你的阿里云域名
+          # 将 my-comfyui 换成你的命名空间
+          ./skopeo copy \
+            --src-creds "" \
+            --dest-creds "${{ secrets.qt1413 }}:${{ secrets.13510705375JeFF }}" \
+            docker://corundex/comfyui-rocm:latest \
+            docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/comfyui-rocm:latest
