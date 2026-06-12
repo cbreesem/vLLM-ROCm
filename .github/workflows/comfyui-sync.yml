@@ -16,7 +16,7 @@ jobs:
         run: |
           # 请将下面的 registry.cn-hangzhou.aliyuncs.com 换成你的阿里云域名
           # 将 my-comfyui 换成你的命名空间
-          ./skopeo copy \
+          skopeo copy \
             --src-creds "" \
             --dest-creds "qt1413:13510705375JeFF" \
             docker://corundex/comfyui-rocm:latest \
