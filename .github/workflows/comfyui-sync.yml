@@ -18,6 +18,6 @@ jobs:
           # 将 my-comfyui 换成你的命名空间
           skopeo copy \
             --src-creds "" \
-            --dest-creds "qt1413:13510705375JeFF" \
+            --dest-creds "${{ secrets.ALIYUN_USERNAME }}:${{ secrets.ALIYUN_PASSWORD }}" \
             docker://corundex/comfyui-rocm:latest \
             docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/comfyui-rocm:latest
