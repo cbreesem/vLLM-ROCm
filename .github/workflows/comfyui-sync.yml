@@ -3,6 +3,10 @@ name: Sync Large Docker Image
 on:
   workflow_dispatch:
 
+env:
+  ALI_USER: ${{ secrets.ALIYUN_USERNAME }}
+  ALI_PASS: ${{ secrets.ALIYUN_PASSWORD }}
+
 jobs:
   sync-image:
     runs-on: ubuntu-latest
@@ -12,10 +16,27 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y skopeo
 
+      - name: Debug Credentials (验证配置是否获取成功)
+        run: |
+          echo "=== 正在检查配置读取状态 ==="
+          
+          # 检查用户名是否为空
+          if [ -z "$ALI_USER" ]; then
+            echo "错误：ALI_USER 完全是空的！"
+          else
+            # 打印用户名的字符长度，比如 15，这样既不泄露隐私，又能证明读到了
+            echo "成功：ALI_USER 拿到了，字符串长度为: $(echo -n "$ALI_USER" | wc -c) 个字符"
+          fi
+
+          # 检查密码是否为空
+          if [ -z "$ALI_PASS" ]; then
+            echo "错误：ALI_PASS 完全是空的！"
+          else
+            echo "成功：ALI_PASS 拿到了，字符串长度为: $(echo -n "$ALI_PASS" | wc -c) 个字符"
+          fi
+          echo "============================"
+
       - name: Sync Image to Aliyun
-        env:
-          ALI_USER: ${{ secrets.ALIYUN_USERNAME }}
-          ALI_PASS: ${{ secrets.ALIYUN_PASSWORD }}
         run: |
           skopeo copy \
             --src-creds "" \
