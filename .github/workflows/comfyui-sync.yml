@@ -16,19 +16,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y skopeo
 
-      - name: Login to Aliyun
-        run: |
-          # 这一步先强制登录阿里云，把状态存入本地
-          skopeo login \
-            --username "$ALI_USER" \
-            --password "$ALI_PASS" \
-            crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com
-
       - name: Sync Image to Aliyun
         run: |
-          # 已经登录成功，这里彻底去掉 --dest-creds 参数，绝不可能再报 empty 错误
-          skopeo copy \
-            --src-creds "" \
-            --dest-tls-verify=false \
-            docker://docker.io/corundex/comfyui-rocm:latest \
-            docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/comfyui-rocm:latest
+          # 彻底干掉所有多行拼接，把所有参数塞进同一行命令里，不给环境变量解析留任何漏洞
+          skopeo copy --src-no-creds --dest-creds "$ALI_USER:$ALI_PASS" --dest-tls-verify=false docker://docker.io/corundex/comfyui-rocm:latest docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/comfyui-rocm:latest
