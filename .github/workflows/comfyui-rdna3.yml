@@ -5,7 +5,7 @@ on:
 env:
   ACR_REG: crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com
   SRC: docker.io/sinfallas/comfyui:0.24.0-amd-rdna3
-  DST: ${{ env.ACR_REG }}/jeff-proxy/sinfallas/comfyui:0.24.0-amd-rdna3
+  DST: docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/sinfallas/comfyui:0.24.0-amd-rdna3
 
 jobs:
   sync:
