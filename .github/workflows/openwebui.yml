@@ -1,4 +1,4 @@
-name: Sync llama.cpp-server
+name: Sync open-webui
 
 on:
   workflow_dispatch:
