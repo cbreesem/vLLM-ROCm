@@ -18,4 +18,4 @@ jobs:
       - name: Sync Image to Aliyun
         run: |
           # 彻底干掉所有多行拼接，把所有参数塞进同一行命令里，不给环境变量解析留任何漏洞
-          skopeo copy --src-no-creds --dest-creds "$ALI_USER:$ALI_PASS" --dest-tls-verify=false docker:/vllm/vllm-openai-rocm:nightly-rocm100 docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/vllm-openai-rocm:nightly-rocm100
+          skopeo copy --src-no-creds --dest-creds "$ALI_USER:$ALI_PASS" --dest-tls-verify=false docker://docker.io/vllm/vllm-openai-rocm:nightly-rocm100 docker://crpi-legts7bsv7grb58e.cn-hangzhou.personal.cr.aliyuncs.com/jeff-proxy/vllm-openai-rocm:nightly-rocm100
